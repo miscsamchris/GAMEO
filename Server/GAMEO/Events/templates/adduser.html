@@ -1,0 +1,45 @@
+<html>  
+    <head>  
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" > 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+<body>
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">GAMEO</a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li ><a href="{{url_for('Event.addevent')}}"> Create Event</a></li>
+        <li ><a href="{{url_for('Activity.addactivity')}}"> Create Activity</a></li>
+        <li ><a href="{{url_for('Activity.addaction')}}"> Create Action</a></li>
+        <li ><a href="{{url_for('Event.getevents')}}"> View Events</a></li>      </ul>
+    </div>
+  </nav>
+    <form method="POST">
+        <br>
+        <br>
+        <br>
+        <div class="col-md-8 col-md-offset-2"> 
+        {{form.hidden_tag()}}
+        {{form.user_email.label}}{{form.user_email(class_="form-control input-lg")}}
+        {{form.user_password.label}}{{form.user_password(class_="form-control input-lg")}}
+        {{form.manager_email.label}}{{form.manager_email(class_="form-control input-lg")}}
+        <br>
+        <center>{{form.submit(class_="btn btn-success")}}</center>
+        <br>
+        <div class="container-fluid" style="min-height:100%">
+            {% with messages = get_flashed_messages() %} 
+              {% if messages %} 
+                {% for message in messages %}
+                <div class="alert alert-warning alert-dismissible" role="alert">
+                  {{message}}
+                </div>
+                {% endfor %} 
+              {% endif %} 
+            {% endwith %}
+          </div>
+        </div>
+    </form>
+</body>
+</html>

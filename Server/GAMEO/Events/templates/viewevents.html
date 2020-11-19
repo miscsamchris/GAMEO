@@ -1,0 +1,47 @@
+<html>  
+    <head>  
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" > 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+<body>
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">GAMEO</a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li ><a href="{{url_for('Event.addevent')}}"> Create Event</a></li>
+        <li ><a href="{{url_for('Activity.addactivity')}}"> Create Activity</a></li>
+        <li ><a href="{{url_for('Activity.addaction')}}"> Create Action</a></li>
+        <li ><a href="{{url_for('Event.getevents')}}"> View Events</a></li>      </ul>
+    </div>
+  </nav>
+        <div class="col-md-8 col-md-offset-2"> 
+            <table>
+                <thead>
+                    <tr>
+                      <th scope="col">Events</th>
+                      <th scope="col">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for event in events %}
+                    <tr>
+                        <th scope="col"><a href="{{url_for('Event.addusers')}}?id={{event.id}}">{{event.event_name}}</a></th>
+                        <td>
+                            {% if event.event_state=="Created" %}
+                            <form action="{{url_for('Event.activate')}}" method="POST">
+                                <input type="hidden" name="event_id" value="{{event.id}}">
+                                <button class="btn btn-success" type="submit">Activate Event</button>
+                            </form>
+                            {% else %}
+                            Activated
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+</body>
+</html>
