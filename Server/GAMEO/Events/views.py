@@ -63,8 +63,8 @@ def registername():
     if request.args !=None:
         user_name=request.args.get("user_name")
         event_name=request.args.get("event_name")
-        user_email=request.args.get("user_email")
+        id=request.args.get("user_id")
         user_adjective=request.args.get("user_adjective")
-        user=User.query.filter_by(user_email=user_email).first()
+        user=User.query.filter_by(id=id).first()
         user.registeruser(user_name,user_adjective,event_name)
     return "Success",200

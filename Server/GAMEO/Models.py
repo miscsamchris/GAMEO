@@ -29,9 +29,10 @@ class Activity(db.Model):
     activity_status=db.Column(db.Text)
     activity_order=db.Column(db.Text)
     activity_score=db.Column(db.Text)
+    Voiceover=db.Column(db.Text)
     activity_type=db.Column(db.Text,nullable=False)
     actions=db.relationship("Action",backref="Activity",primaryjoin="Activity.id == Action.activity_id")
-    def __init__(self, activity_name,event_id,activity_description,activity_resources,activity_type,activity_starttime,activity_endtime,activity_status,activity_order,activity_score):
+    def __init__(self, activity_name,event_id,activity_description,activity_resources,activity_type,activity_starttime,activity_endtime,activity_status,activity_order,activity_score,Voiceover):
         self.activity_name=activity_name    
         self.event_id=event_id
         self.activity_description=activity_description
@@ -42,6 +43,7 @@ class Activity(db.Model):
         self.activity_status=activity_status
         self.activity_order=activity_order
         self.activity_score=activity_score
+        self.Voiceover=Voiceover
     def __repr__(self):
         return f"{self.activity_name}"
 
@@ -55,7 +57,8 @@ class Action(db.Model):
     action_status=db.Column(db.Text)
     action_order=db.Column(db.Integer)
     action_score=db.Column(db.Integer)
-    def __init__(self, action_name,action_type,activity_id,action_data,action_status,action_order,action_score):
+    Voiceover=db.Column(db.Text)
+    def __init__(self, action_name,action_type,activity_id,action_data,action_status,action_order,action_score,Voiceover):
         self.action_name=action_name    
         self.action_type=action_type
         self.activity_id=activity_id
@@ -63,9 +66,9 @@ class Action(db.Model):
         self.action_status=action_status
         self.action_order=action_order
         self.action_score=action_score
+        self.Voiceover=Voiceover
     def __repr__(self):
         return f"{self.video_name} : {self.video_path}"
-
 class User(db.Model):
     __tablename__="Users"
     id=db.Column(db.Integer,primary_key=True)
@@ -90,7 +93,7 @@ class User(db.Model):
         db.session.commit()
     def __repr__(self):
         return f"{self.user_name}"
-    
+
 class ActivityLog(db.Model):
     __tablename__="ActivityLogs"
     id=db.Column(db.Integer,primary_key=True)
