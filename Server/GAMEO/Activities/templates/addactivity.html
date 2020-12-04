@@ -1,50 +1,206 @@
 <html>  
-    <head>  
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" > 
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
+  <head>  
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </head>
+  <style>
+    body{
+      background-color: rgb(46, 46, 56);
+      color: white;
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+    
+    .page-header{
+      color: white;
+      font-family: Georgia, 'Times New Roman', Times, serif;
+      text-align: center;
+      padding: 0%;
+      margin-top: 10;
+      margin-bottom: 0;
+      border-bottom: 1px solid yellow;
+      letter-spacing: 5px;
+    }
+    .active a{
+      color: yellow !important;
+    }
+
+    .main-content{
+      padding: 15px;
+      padding-top: 25px;
+      height: 700px;
+    }
+    .navbar{
+      background-color:black!important;
+     
+    }
+    p.gam-full-form{
+      color: white;
+      margin: 0%;
+      text-align: center;
+      font-variant: small-caps;
+    }
+    .yellow{
+      color: rgb(253, 228, 3);
+    }
+    
+    .form-img{
+      background-repeat: no-repeat;
+      background-image: url("#");  /* Background Image for Forms*/
+      background-blend-mode: lighten;
+      background-attachment: fixed;
+      border:1px solid;
+      background-size: 100% 100%;
+    }
+
+    .form-style{
+      margin: 0 auto;
+      width: 90%;
+    }
+
+    label{
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    
+    #mascot-instruction{
+      position: absolute;
+      right: 15px;
+      height: 300px;
+      top:150px;
+      bottom:150px;
+      width: 40%;
+      border: 1px solid;
+    }
+
+    #footer{
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background-color:black ;
+      color: yellow;
+      text-align: center;
+    }
+
+    #mascot{
+      height: 500px;
+      border: none;
+      width: 55%;
+      padding-top: 80px;
+    }
+
+  </style>
 <body>
-  <nav class="navbar navbar-inverse">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <a class="navbar-brand" href="#">GAMEO</a>
-      </div>
-      <ul class="nav navbar-nav">
-        <li ><a href="{{url_for('Event.addevent')}}"> Create Event</a></li>
-        <li ><a href="{{url_for('Activity.addactivity')}}"> Create Activity</a></li>
-        <li ><a href="{{url_for('Activity.addaction')}}"> Create Action</a></li>
-        <li ><a href="{{url_for('Event.getevents')}}"> View Events</a></li>      </ul>
+<div class="row sticky-top" style="background-color: black;">
+  <div class="col-md-5">
+    <h4 class="page-header">GAMEO</h4>
+    <p class="gam-full-form"><span class="yellow">G</span>amified <span class="yellow">A</span>pplication for 
+      <span class="yellow">M</span>anagement of <span class="yellow">E</span>mployee 
+      <span class="yellow">O</span>nboarding</p>
+  </div>
+  <div class="col-md-7">
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="{{url_for('Event.addevent')}}"> CREATE EVENT</a>
+          </li>
+          <li class="nav-item active" >
+            <a class="nav-link" href="{{url_for('Activity.addactivity')}}"> CREATE ACTIVITY</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{url_for('Activity.addaction')}}"> CREATE ACTION</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{url_for('Event.getevents')}}"> VIEW EVENTS</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="profile-drop" data-toggle="dropdown">
+              <span class="yellow"> USERNAME</span>
+            </a>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" href="#">Log Out</a> <!--Login Page-->
+            </div>
+          </li>
+        </ul>
+    </nav>
+  </div>
+</div>
+
+<div class="row main-content">
+  <div class="col-md-5" style="border: 1px solid;">
+    <img id="mascot" src="#" alt="GAMEO MASCOT"/>
+    <div id="mascot-instruction">
+       Create an activity for selected event<br><br>
+       Add Hyperlink or Instructions as Resources
     </div>
-  </nav>
-    <form method="POST">
+  </div>
+  <div class="col-md-7 form-img" >
+    <form method="POST" class="col-12 form-style">
         <br>
-        <br>
-        <br>
-        <div class="col-md-8 col-md-offset-2"> 
         {{form.hidden_tag()}}
-        {{form.activity_name.label}}{{form.activity_name(class_="form-control input-lg")}}
+      <!-- Event Name -->
+      <div class="form-row">
+        <label class="col-sm-3 col-form-label" >{{form.event_name.label}}</label>
+        <div class="col-sm-8">{{form.event_name(class_="form-control input-lg")}}</div>
+     </div>
         <br>
-        {{form.activity_description.label}}{{form.activity_description(class_="form-control input-lg")}}
+     <!-- Activity Name -->
+        <div class="form-row">
+          <label class="col-sm-3 col-form-label"  >{{form.activity_name.label}}</label>
+          <div class="col-sm-8">{{form.activity_name(class_="form-control input-lg")}}</div>
+       </div>
         <br>
-        {{form.event_name.label}}{{form.event_name(class_="form-control input-lg")}}
+      <!-- Type -->
+        <div class="form-row">
+          <label class="col-sm-3 col-form-label"  > {{form.activity_type.label}}</label>
+          <div class="col-sm-8">{{form.activity_type(class_="form-control input-lg")}}</div>
+       </div>
         <br>
-        {{form.activity_resources.label}}{{form.activity_resources(class_="form-control input-lg")}}
+      <!-- Time -->
+        <div class="form-row">
+          <label class="col-sm-3 col-form-label"  > {{form.activity_starttime.label}}</label>
+          <div class="col-sm-3">{{form.activity_starttime(class_="form-control input-lg")}}</div>
+          <label class="col-sm-2 col-form-label text-center"  > {{form.activity_endtime.label}}</label>
+          <div class="col-sm-3">{{form.activity_endtime(class_="form-control input-lg")}}</div>
+       </div>
         <br>
-        {{form.activity_starttime.label}}{{form.activity_starttime(class_="form-control input-lg")}}
+      <!-- Score & Order -->
+        <div class="form-row">
+          <label class="col-sm-3 col-form-label"  > {{form.activity_score.label}}</label>
+          <div class="col-sm-3">{{form.activity_score(class_="form-control input-lg")}}</div>
+          <label class="col-sm-2 col-form-label text-center"  >{{form.activity_order.label}}</label>
+          <div class="col-sm-3">{{form.activity_order(class_="form-control input-lg")}}</div>
+        </div>     
         <br>
-        {{form.activity_endtime.label}}{{form.activity_endtime(class_="form-control input-lg")}}
+      <!-- Resources -->
+      <div class="form-row">
+        <label class="col-sm-3 col-form-label"  >{{form.activity_resources.label}}</label>
+        <div class="col-sm-8"> {{form.activity_resources(class_="form-control input-lg")}}</div>
+     </div> 
+      <br>
+       <!-- Speech Data -->
+      <div class="form-row">
+        <label class="col-sm-3 col-form-label"  >{{form.Voiceover.label}}</label>
+        <div class="col-sm-8"> {{form.Voiceover(class_="form-control input-lg")}}</div>
+     </div> 
+      <br>  
+      <!-- Description -->
+        <div class="form-row">
+          <label class="col-sm-3 col-form-label"  >{{form.activity_description.label}}</label>
+          <div class="col-sm-8"> {{form.activity_description(class_="form-control input-lg")}}</div>
+       </div>
         <br>
-        {{form.activity_type.label}}{{form.activity_type(class_="form-control input-lg")}}
+      
+      
+        <center>{{form.submit(class_="btn btn-warning font-weight-bold")}}</center>
         <br>
-        {{form.activity_score.label}}{{form.activity_score(class_="form-control input-lg")}}
-        <br>
-        {{form.activity_order.label}}{{form.activity_order(class_="form-control input-lg")}}
-        <br>
-        {{form.Voiceover.label}}{{form.Voiceover(class_="form-control input-lg")}}
-        <br>
-        <center>{{form.submit(class_="btn btn-success")}}</center>
-        <br>
-        <div class="container-fluid" style="min-height:100%">
+        <div class="container-fluid" >
             {% with messages = get_flashed_messages() %} 
               {% if messages %} 
                 {% for message in messages %}
@@ -56,6 +212,15 @@
             {% endwith %}
           </div>
         </div>
-    </form>
-</body>
+      </form>
+      </div>
+    
+    <br>
+    <br>
+    <br>
+    <br>
+    <div id="footer">
+      &copy;Copyright TBD
+    </div>      
+  </body>
 </html>
