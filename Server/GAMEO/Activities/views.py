@@ -19,33 +19,12 @@ def addactivity():
         activity_type=form.activity_type.data
         activity_score=form.activity_score.data
         activity_order=form.activity_order.data
-        activity=Activity(activity_name,event_name,activity_description,activity_resources,activity_type,activity_starttime,activity_endtime,"Created",activity_order,activity_score)
+        Voiceover=form.Voiceover.data
+        activity=Activity(activity_name,event_name,activity_description,activity_resources,activity_type,activity_starttime,activity_endtime,"Created",activity_order,activity_score,Voiceover)
         db.session.add(activity)
         db.session.commit()
         return redirect(url_for("Activity.addaction"))
     return render_template("addactivity.html",form=form)
-@activity_blueprint.route("/activity/<string:name>/", methods=["GET","POST"])
-def getactivity(name):
-    form = AddActivity()
-    events=Event.query.all()
-    choice=[(i.id,i.event_name) for i in list(events)]
-    form.event_name.choices=choice
-    if form.is_submitted():
-        activity_name=form.activity_name.data
-        event_name=form.event_name.data
-        activity_description=form.activity_description.data
-        activity_resources=form.activity_resources.data
-        activity_starttime=form.activity_starttime.data
-        activity_endtime=form.activity_endtime.data
-        activity_type=form.activity_type.choices[int(form.activity_type.data)]
-        activity_score=form.activity_score.data
-        activity_order=form.activity_order.data
-        activity=Activity(activity_name,event_name,activity_description,activity_resources,activity_type,activity_starttime,activity_endtime,"Created",activity_order,activity_score)
-        db.session.add(activity)
-        db.session.commit()
-        return redirect(url_for("Activity.addaction"))
-    return render_template("addactivity.html",form=form)
-
 @activity_blueprint.route("/action/create", methods=["GET","POST"])
 def addaction():
     form = AddAction()
@@ -59,7 +38,8 @@ def addaction():
         action_type=form.action_type.data
         action_score=form.action_score.data
         action_order=form.action_order.data
-        action=Action(action_name,action_type,activity_name,action_data,"Created",action_order,action_score)
+        Voiceover=form.Voiceover.data
+        action=Action(action_name,action_type,activity_name,action_data,"Created",action_order,action_score,Voiceover)
         db.session.add(action)
         db.session.commit()
         return redirect(url_for("Activity.addactivity"))

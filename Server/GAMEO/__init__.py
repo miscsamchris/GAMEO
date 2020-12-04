@@ -14,18 +14,13 @@ api=Api(app=app)
 Migrate(app,db)
 
 from GAMEO.Activities.views import activity_blueprint
-# from GAMEO.Admin.views import subject_blueprint
 from GAMEO.Events.views import event_blueprint
-from GAMEO.RestAPI.RESTfulAPI import EventRest,Events,ActivityRest,Activities
+from GAMEO.RestAPI.RESTfulAPI import EventRest,Events,ActivityRest,Activities,UserRest
 app.register_blueprint(activity_blueprint,url_prefix="/activity")
-# app.register_blueprint(subject_blueprint,url_prefix="/subject")
 app.register_blueprint(event_blueprint,url_prefix="/event")
 api.add_resource(EventRest,"/rest/events/<string:name>/")
 api.add_resource(Events,"/rest/events/")
-api.add_resource(ActivityRest,"/rest/activity/<string:name>/")
+api.add_resource(ActivityRest,"/rest/activities/<string:name>/")
 api.add_resource(Activities,"/rest/activities/")
-# api.add_resource(TopicRest,"/rest/topic/<string:name>/")
-# api.add_resource(Topics,"/rest/topic/")
-# api.add_resource(VideoRest,"/rest/video/<int:id>/")
-# api.add_resource(Videos,"/rest/video/name/<string:name>/")
+api.add_resource(UserRest,"/user/<string:name>/")
 

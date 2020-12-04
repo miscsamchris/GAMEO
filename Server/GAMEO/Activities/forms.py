@@ -10,13 +10,15 @@ class AddActivity(FlaskForm):
     activity_type=SelectField(label="Activity Type",choices=["Registration","Online","Offline","Quiz"],validators=[validators.required()])
     activity_score=StringField("Score",validators=[validators.required()])
     activity_order=StringField("Order",validators=[validators.required()])
+    Voiceover=StringField("Speech Data",validators=[validators.required()])
     submit=SubmitField("Add Activity")
 
 class AddAction(FlaskForm):
-    action_name=StringField("Enter the Action Name",validators=[validators.required()])
-    activity_name=SelectField(label="Select the Activity ",choices=[],validators=[validators.required()])
+    action_name=StringField("Action Name",validators=[validators.required()])
+    activity_name=SelectField(label="Select Activity ",choices=[],validators=[validators.required()])
     action_data=TextAreaField("Enter Data required for the Action",validators=[validators.required()])
-    action_type=SelectField(label="Select the type of the Action ",choices=["Question","Registration","Form"],validators=[validators.required()])
+    action_type=SelectField(label="Action Type",choices=["Question","Registration","Form"],validators=[validators.required()])
     action_score=StringField("Action Score",validators=[validators.required()])
     action_order=StringField("Action order",validators=[validators.required()])
+    Voiceover=StringField("Speech Data",validators=[validators.required()])
     submit=SubmitField("Add Action")
