@@ -53,7 +53,7 @@
       background-image: url("#");  /* Background Image for Forms*/
       background-blend-mode: lighten;
       background-attachment: fixed;
-      border:1px solid;
+      /* border:1px solid; */
       background-size: 100% 100%;
       justify-content: center;
     }
@@ -76,7 +76,7 @@
       top:150px;
       bottom:150px;
       width: 40%;
-      border: 1px solid;
+      /* border: 1px solid; */
     }
 
     #footer{
@@ -107,7 +107,7 @@
 
     .table-style th{
       font-size: 20px;
-      width: 50%;
+      width: 80%;
     }
 
     .table-style td{
@@ -116,6 +116,12 @@
 
     .table-style td a{
       color: white;
+    }
+    table.table-style{
+      overflow-x: scroll;
+    }
+    .upload-file{
+      width: 270px; 
     }
 
   </style>
@@ -142,39 +148,45 @@
           <li class="nav-item active">
             <a class="nav-link" href="{{url_for('Event.getevents')}}"> VIEW EVENTS</a>
           </li>
-          <!--<li class="nav-item dropdown">
+          <!-- <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="profile-drop" data-toggle="dropdown">
               <span class="yellow"> USERNAME</span>
             </a>
             <div class="dropdown-menu">
               <a class="dropdown-item" href="#">Log Out</a> 
             </div>
-          </li>-->
+          </li> -->
         </ul>
     </nav>
   </div>
 </div>
 
 <div class="row main-content">
-  <div class="col-md-5" style="border: 1px solid;">
+  <div class="col-md-5">
     <img id="mascot" src="#" alt="GAMEO MASCOT"/>
     <div id="mascot-instruction">
-      Click on Event to add Users<br><center>&/or</center>Click on the button to Activate the Event 
+      Click on the button to Activate the Event<br><br>
+      Click on Event to view Leaderboard<br><br>
+      <small><i>Users Info file must be csv or excel type with fields username, password and
+        manager-name
+      </i></small>
     </div>
   </div>
   <div class="col-md-7 table-img" >
     <br><br>
-    <table class="table-style">
+    <table class="table-style ">
       <thead>
           <tr>
             <th scope="col">Events</th>
             <th scope="col">Action</th>
+            <th scope="col">Users Info</th>
+            <th scope="col">&Tab;</th>
           </tr>
         </thead>
         <tbody>
           {% for event in events %}
           <tr>
-              <td scope="col"><a href="{{url_for('Event.addusers')}}?id={{event.id}}">{{event.event_name}}</a></td>
+              <td scope="col"><a href="{{url_for('Event.getscores')}}?name={{event.event_name}}">{{event.event_name}}</a></td>
               <td>
                   {% if event.event_state=="Created" %}
                   <form action="{{url_for('Event.activate')}}" method="POST">
@@ -185,6 +197,17 @@
                   <span class="badge badge-success">Activated</span> 
                   {% endif %}
               </td>
+              <form action="{{url_for('Event.getusers')}}" method="POST" enctype="multipart/form-data">
+              <td>
+                <input type="hidden" name="event_id" value="{{event.id}}">
+                  <input type="file" name="users_file" id="users_file" class="upload-file"
+                  accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"/>
+                </td>
+                <td><input type="submit" class="btn-primary btn-xs btn-warning" value="Upload"></td>
+                  
+                </form>
+                
+              </td>
           </tr>
           {% endfor %}
       </tbody>
@@ -193,6 +216,10 @@
 </div>
 <br>
 <br>
+
+<!-- {% for user in users %}
+  <p>{{user.user_email}} {{user.user_password}} {{user.manager_email}}</p>
+{% endfor %} -->
 <br>
 <br>
 <div id="footer">
