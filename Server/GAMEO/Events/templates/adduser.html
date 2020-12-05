@@ -151,7 +151,7 @@
 
   <div class="row main-content">
     <div class="col-md-5">
-      <img id="mascot" src="#" alt="GAMEO MASCOT"/>
+      <img id="mascot" class="img-responsive" src="{{url_for('Event.static', filename='images/mascot.png') }}" alt="GAMEO MASCOT" />
       <div id="mascot-instruction">
         Add Users for your Event
       </div>
@@ -171,7 +171,7 @@
             
             {% for i in range(scores|length) %}
             <tr>
-                <td scope="col">{{i}}</a></td>
+                <td scope="col">{{i+1}}</a></td>
                 <td scope="col">{{scores[i].user_name}}</a></td>
                 <td scope="col">{{scores[i].user_score}}</a></td>
             </tr>

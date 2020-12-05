@@ -121,5 +121,10 @@ class Leaderboard(db.Model):
         self.user_name=user_name    
         self.user_score=0
         self.event_name=event_name
+    def updatescore(user_name,event_name,score):
+        user=Leaderboard.query.filter_by(event_name=event_name,user_name=user_name).first()
+        if  user != None:
+            user.user_score=score
+            db.session.commit()
     def __repr__(self):
         return f"{self.user_name}"

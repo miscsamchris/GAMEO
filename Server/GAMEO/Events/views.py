@@ -4,7 +4,7 @@ import pandas as pd
 from flask import Blueprint,render_template,redirect,url_for,request
 from GAMEO.Models import Event,User,ActivityLog,Leaderboard
 from GAMEO.Events.forms import AddEvent,AddUser
-event_blueprint=Blueprint("Event",__name__,template_folder="templates")
+event_blueprint=Blueprint("Event",__name__,template_folder="templates",static_folder="static")
 
 
 
@@ -72,7 +72,7 @@ def getusers():
 @event_blueprint.route("/users/", methods=["GET","POST"])
 def getscores():
     event_name=request.args.get("name")
-    scores=Leaderboard.query.filter_by(event_name=event_name).all()
+    scores=Leaderboard.query.filter_by(event_name=event_name).order_by(Leaderboard.user_score.desc()).all()
     # print(scores)
     return render_template("adduser.html",scores=list(scores))
 
@@ -81,23 +81,22 @@ def getscores():
 def updatescore():
     if request.args !=None:
         user_name=request.args.get("user_name")
-        user_email=request.args.get("user_email")
-        activity_name=request.args.get("activity_name")
-        action_name=request.args.get("action_name")
-        score_update_value=request.args.get("score_update_value")
-        al=ActivityLog(user_name,user_email,activity_name,action_name,score_update_value)
-        db.session.add(al)
-        db.session.commit()
+        event_name=request.args.get("event_name")
+        score=request.args.get("score")
+        Leaderboard.updatescore(user_name,event_name,score)
     return "Success",200
 
 
 @event_blueprint.route("/registername/", methods=["GET","POST"])
 def registername():
     if request.args !=None:
+        import sys
         user_name=request.args.get("user_name")
         event_name=request.args.get("event_name")
-        user_email=request.args.get("user_email")
+        user_id=request.args.get("user_id")
         user_adjective=request.args.get("user_adjective")
-        user=User.query.filter_by(user_email=user_email).first()
+        print(user_id,file=sys.stderr)
+        user=User.query.filter_by(id=user_id).first()
+        print(user,file=sys.stderr)
         user.registeruser(user_name,user_adjective,event_name)
     return "Success",200

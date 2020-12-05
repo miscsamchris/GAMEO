@@ -2,7 +2,7 @@ from GAMEO import db
 from flask import Blueprint,render_template,redirect,url_for
 from GAMEO.Models import Event,Activity,Action
 from GAMEO.Activities.forms import AddActivity,AddAction
-activity_blueprint=Blueprint("Activity",__name__,template_folder="templates")
+activity_blueprint=Blueprint("Activity",__name__,template_folder="templates",static_folder="static")
 @activity_blueprint.route("/create", methods=["GET","POST"])
 def addactivity():
     form = AddActivity()
