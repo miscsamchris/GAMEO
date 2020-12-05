@@ -53,7 +53,7 @@
       background-image: url("#");  /* Background Image for Forms*/
       background-blend-mode: lighten;
       background-attachment: fixed;
-      border:1px solid;
+      /* border:1px solid; */
       background-size: 100% 100%;
     }
 
@@ -75,7 +75,7 @@
       top:150px;
       bottom:150px;
       width: 40%;
-      border: 1px solid;
+      /* border: 1px solid; */
     }
 
     #footer{
@@ -119,21 +119,21 @@
           <li class="nav-item">
             <a class="nav-link" href="{{url_for('Event.getevents')}}"> VIEW EVENTS</a>
           </li>
-          <!--<li class="nav-item dropdown">
+          <!-- <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="profile-drop" data-toggle="dropdown">
               <span class="yellow"> USERNAME</span>
             </a>
             <div class="dropdown-menu">
               <a class="dropdown-item" href="#">Log Out</a> 
             </div>
-          </li>-->
+          </li> -->
         </ul>
     </nav>
   </div>
 </div>
 
 <div class="row main-content">
-<div class="col-md-5" style="border: 1px solid;">
+<div class="col-md-5">
   <img id="mascot" src="#" alt="GAMEO MASCOT"/>
   <div id="mascot-instruction">
     Create Actions for the Selected Activity<br>
@@ -150,8 +150,6 @@
         {{form.action_type.label}}{{form.action_type(class_="form-control input-lg")}}
         <br>
         {{form.action_data.label}}{{form.action_data(class_="form-control input-lg")}}
-        <br>
-              {{form.Voiceover.label}}{{form.Voiceover(class_="form-control input-lg")}}
         <br>
        <div class="form-row" style="height: 40px;">
          <label class="col-sm-6 col-form-label">{{form.action_score.label}}</label>
