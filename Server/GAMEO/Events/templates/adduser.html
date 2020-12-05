@@ -53,14 +53,31 @@
         background-image: url("#");  /* Background Image for Forms*/
         background-blend-mode: lighten;
         background-attachment: fixed;
-        border:1px solid;
+        /* border:1px solid; */
         background-size: 100% 100%;
       }
 
-      .form-style{
-        margin: 0 auto;
-        width: 60%;
-      }
+    table.table-style{
+      margin: 0 auto;
+      width: 60%;
+    }
+
+      .table-style thead{
+      background-color: black;
+    }
+
+    .table-style th,td{
+      padding: 10px;
+      text-align: center;
+    }
+
+    .table-style th{
+      font-size: 20px;
+    }
+
+    .table-style td{
+      font-size: 18px;
+    }
 
       label{
         font-size: 20px;
@@ -75,7 +92,7 @@
         top:150px;
         bottom:150px;
         width: 40%;
-        border: 1px solid;
+        /* border: 1px solid; */
       }
 
       #footer{
@@ -119,54 +136,49 @@
             <li class="nav-item active">
               <a class="nav-link" href="{{url_for('Event.getevents')}}"> VIEW EVENTS</a>
             </li>
-            <!--<li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="profile-drop" data-toggle="dropdown">
-              <span class="yellow"> USERNAME</span>
-            </a>
-            <div class="dropdown-menu">
-              <a class="dropdown-item" href="#">Log Out</a> 
-            </div>
-          </li>-->
+            <!-- <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="profile-drop" data-toggle="dropdown">
+                <span class="yellow"> USERNAME</span>
+              </a>
+              <div class="dropdown-menu">
+                <a class="dropdown-item" href="#">Log Out</a> 
+              </div>
+            </li> -->
           </ul>
       </nav>
     </div>
   </div>
 
   <div class="row main-content">
-    <div class="col-md-5" style="border: 1px solid;">
+    <div class="col-md-5">
       <img id="mascot" src="#" alt="GAMEO MASCOT"/>
       <div id="mascot-instruction">
         Add Users for your Event
       </div>
     </div>
     <div class="col-md-7 form-img" >
-    <form method="POST">
-        <br>
-        <br>
-        <br>
-        <div class="form-style"> 
-        {{form.hidden_tag()}}
-        {{form.user_email.label}}{{form.user_email(class_="form-control input-lg")}}
-        <br>
-        {{form.user_password.label}}{{form.user_password(class_="form-control input-lg")}}
-        <br>
-        {{form.manager_email.label}}{{form.manager_email(class_="form-control input-lg")}}
-        <br><br>
-        <center>{{form.submit(class_="btn btn-warning font-weight-bold")}}</center>
-        <br>
-        <div class="container-fluid" >
-            {% with messages = get_flashed_messages() %} 
-              {% if messages %} 
-                {% for message in messages %}
-                <div class="alert alert-warning alert-dismissible" role="alert">
-                  {{message}}
-                </div>
-                {% endfor %} 
-              {% endif %} 
-            {% endwith %}
-          </div>
-        </div>
-    </form>
+      <br>
+      <center><h4>{{name}} Leaderboard</h4></center>
+      <table class="table-style">
+        <thead>
+            <tr>
+              <th scope="col">Rank</th>
+              <th scope="col">User</th>
+              <th scope="col">Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            {% for i in range(scores|length) %}
+            <tr>
+                <td scope="col">{{i}}</a></td>
+                <td scope="col">{{scores[i].user_name}}</a></td>
+                <td scope="col">{{scores[i].user_score}}</a></td>
+            </tr>
+           
+            {% endfor %}
+        </tbody>
+    </table>
   </div>
 </div>
 <br>
