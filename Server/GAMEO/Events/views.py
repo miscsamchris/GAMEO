@@ -1,11 +1,16 @@
-from GAMEO import db
+from GAMEO import app,db
+import os
+import pandas as pd
 from flask import Blueprint,render_template,redirect,url_for,request
-from GAMEO.Models import Event,User,ActivityLog
+from GAMEO.Models import Event,User,ActivityLog,Leaderboard
 from GAMEO.Events.forms import AddEvent,AddUser
 event_blueprint=Blueprint("Event",__name__,template_folder="templates")
 
+
+
 @event_blueprint.route("/create", methods=["GET","POST"])
 def addevent():
+    # img_pathname = os.path.join(app.config['UPLOAD_FOLDER'],'team.png')
     form = AddEvent()
     if form.validate_on_submit():
         event_name=form.event_name.data
@@ -20,7 +25,10 @@ def addevent():
 @event_blueprint.route("/events", methods=["GET","POST"])
 def getevents():
     events=Event.query.all()
-    return render_template("viewevents.html",events=list(events))
+    users=User.query.all()
+    return render_template("viewevents.html",events=list(events),users=list(users))
+
+
 @event_blueprint.route("/activate/", methods=["GET","POST"])    
 def activate():
     id=int(request.form["event_id"])
@@ -30,19 +38,44 @@ def activate():
         db.session.commit()
     return redirect(url_for("Event.getevents"))
 
+
+@event_blueprint.route("/getusers/",methods=["POST"])
+def getusers():
+    if request.method=="POST":
+        id=int(request.form["event_id"])
+        user_file = request.files["users_file"]
+        if(".xls" in user_file.filename):
+            user_df = pd.read_excel(user_file)
+        elif(".csv" in user_file.filename):
+            user_df = pd.read_csv(user_file)
+        for i in range(len(user_df)):
+            user=User(user_df.iloc[i,0],user_df.iloc[i,1],user_df.iloc[i,2],id)
+            db.session.add(user)
+            db.session.commit()
+        return redirect(url_for("Event.getevents"))
+
+
+# @event_blueprint.route("/users/", methods=["GET","POST"])
+# def addusers():
+#     form = AddUser()
+#     if form.validate_on_submit():
+#         user_email=form.user_email.data
+#         user_password=form.user_password.data
+#         manager_email=form.manager_email.data
+#         event_id=int(request.args.get("id"))
+#         user=User(user_email,user_password,manager_email,event_id)
+#         db.session.add(user)
+#         db.session.commit()
+#         return redirect(url_for("Event.addusers")+"?id="+str(event_id))
+#     return render_template("adduser.html",form=form)
+
 @event_blueprint.route("/users/", methods=["GET","POST"])
-def addusers():
-    form = AddUser()
-    if form.validate_on_submit():
-        user_email=form.user_email.data
-        user_password=form.user_password.data
-        manager_email=form.manager_email.data
-        event_id=int(request.args.get("id"))
-        user=User(user_email,user_password,manager_email,event_id)
-        db.session.add(user)
-        db.session.commit()
-        return redirect(url_for("Event.addusers")+"?id="+str(event_id))
-    return render_template("adduser.html",form=form)
+def getscores():
+    event_name=request.args.get("name")
+    scores=Leaderboard.query.filter_by(event_name=event_name).all()
+    # print(scores)
+    return render_template("adduser.html",scores=list(scores))
+
 
 @event_blueprint.route("/updatescore/", methods=["GET","POST"])
 def updatescore():
@@ -63,8 +96,8 @@ def registername():
     if request.args !=None:
         user_name=request.args.get("user_name")
         event_name=request.args.get("event_name")
-        id=request.args.get("user_id")
+        user_email=request.args.get("user_email")
         user_adjective=request.args.get("user_adjective")
-        user=User.query.filter_by(id=id).first()
+        user=User.query.filter_by(user_email=user_email).first()
         user.registeruser(user_name,user_adjective,event_name)
     return "Success",200
