@@ -48,7 +48,7 @@ def getusers():
             user_df = pd.read_excel(user_file)
         elif(".csv" in user_file.filename):
             user_df = pd.read_csv(user_file)
-        for i in range(len(user_df)):
+        for i in range(0,len(user_df)):
             user=User(user_df.iloc[i,0],user_df.iloc[i,1],user_df.iloc[i,2],id)
             db.session.add(user)
             db.session.commit()
@@ -90,13 +90,10 @@ def updatescore():
 @event_blueprint.route("/registername/", methods=["GET","POST"])
 def registername():
     if request.args !=None:
-        import sys
         user_name=request.args.get("user_name")
         event_name=request.args.get("event_name")
         user_id=request.args.get("user_id")
         user_adjective=request.args.get("user_adjective")
-        print(user_id,file=sys.stderr)
         user=User.query.filter_by(id=user_id).first()
-        print(user,file=sys.stderr)
         user.registeruser(user_name,user_adjective,event_name)
     return "Success",200
