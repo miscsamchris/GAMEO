@@ -7,7 +7,7 @@ activity_blueprint=Blueprint("Activity",__name__,template_folder="templates",sta
 def addactivity():
     form = AddActivity()
     events=Event.query.all()
-    choice=[(i.id,i.event_name) for i in list(events)]
+    choice=[(i.id,i.event_name) for i in list(events)][::-1]
     form.event_name.choices=choice
     if form.is_submitted():
         activity_name=form.activity_name.data
@@ -29,7 +29,7 @@ def addactivity():
 def addaction():
     form = AddAction()
     activities=Activity.query.all()
-    choice=[(i.id,i.activity_name) for i in list(activities)]
+    choice=[(i.id,i.activity_name) for i in list(activities)][::-1]
     form.activity_name.choices=choice
     if form.is_submitted():
         action_name=form.action_name.data
